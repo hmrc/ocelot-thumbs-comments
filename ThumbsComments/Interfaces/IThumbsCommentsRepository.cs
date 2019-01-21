@@ -9,7 +9,7 @@ namespace ThumbsComments.Interfaces
     /// <summary>
     /// Thumbs Comments Repository
     /// </summary>
-    interface IThumbsCommentsRepository
+    public interface IThumbsCommentsRepository
     {
         /// <summary>
         /// Required Get function

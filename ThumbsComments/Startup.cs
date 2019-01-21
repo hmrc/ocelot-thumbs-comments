@@ -12,7 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ThumbsComments.Interfaces;
 using ThumbsComments.Models;
+using ThumbsComments.Repositories;
 
 namespace ThumbsComments
 {
@@ -34,6 +36,8 @@ namespace ThumbsComments
                            Environment.GetEnvironmentVariable("Connection", EnvironmentVariableTarget.Machine)));
 
             services.AddAuthentication(HttpSysDefaults.AuthenticationScheme);
+
+            services.AddScoped<IThumbsCommentsRepository, ThumbsCommentRepository>();
 
             services.Configure<IISOptions>(c =>
             {
