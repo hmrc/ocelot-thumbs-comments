@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 using ThumbsComments.Interfaces;
 using ThumbsComments.Models;
 using ThumbsComments.Repositories;
@@ -40,6 +43,34 @@ namespace ThumbsComments
 
             services.AddScoped<IThumbsCommentsRepository, ThumbsCommentRepository>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Thumbs Comments",
+                    Description = "Thumbs comments for thumbs dashboard",
+                    TermsOfService = "to be confirmed",
+                    Contact = new Contact
+                    {
+                        Name = "David Kinghan",
+                        Email = "david.kinghan@hmrc.gov.uk",
+                        Url = "to be confirmed"
+                    },
+                    License = new License
+                    {
+                        Name = "to be confirmed",
+                        Url = "to be confirmed"
+                    }
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                c.IncludeXmlComments(xmlPath);
+            });
+
+
             services.Configure<IISOptions>(c =>
             {
                 c.ForwardClientCertificate = true;
@@ -61,6 +92,19 @@ namespace ThumbsComments
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseSwagger();
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<Context>();
+
+                context.Database.EnsureCreated();
+            }
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "Thumbs Comments");
+            });
         }
     }
 }

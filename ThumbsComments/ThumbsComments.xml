@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ThumbsComments</name>
+    </assembly>
+    <members>
+        <member name="M:ThumbsComments.Controllers.CommentsController.GetCommentByLineOfBusiness(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="lineOfBusiness"></param>
+            <returns>Task IActionResult</returns>
+            <response code="200">Ok</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="T:ThumbsComments.Interfaces.IThumbsCommentsRepository">
+            <summary>
+            Thumbs Comments Repository
+            </summary>
+        </member>
+        <member name="M:ThumbsComments.Interfaces.IThumbsCommentsRepository.Get(System.Linq.Expressions.Expression{System.Func{ThumbsComments.Models.Comment,System.Boolean}})">
+            <summary>
+            Required Get function
+            </summary>
+            <param name="where">Where function</param>
+            <returns>Task of Comment</returns>
+        </member>
+        <member name="M:ThumbsComments.Interfaces.IThumbsCommentsRepository.GetMany">
+            <summary>
+            Required GetMany function
+            </summary>
+            <returns>Task IEnumerable Comments</returns>
+        </member>
+        <member name="M:ThumbsComments.Interfaces.IThumbsCommentsRepository.GetMany(System.Linq.Expressions.Expression{System.Func{ThumbsComments.Models.Comment,System.Boolean}})">
+            <summary>
+            Required GetMany function
+            </summary>
+            <param name="where">Where function</param>
+            <returns>Task IEnumerable Comment</returns>
+        </member>
+        <member name="M:ThumbsComments.Interfaces.IThumbsCommentsRepository.Post(ThumbsComments.Models.Comment)">
+            <summary>
+            Requred Post function
+            </summary>
+            <param name="comment">Comment</param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:ThumbsComments.Interfaces.IThumbsCommentsRepository.Put(ThumbsComments.Models.Comment)">
+            <summary>
+            Required Put function
+            </summary>
+            <param name="comment">Comment</param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:ThumbsComments.Interfaces.IThumbsCommentsRepository.Delete(ThumbsComments.Models.Comment)">
+            <summary>
+            Required Delete function
+            </summary>
+            <param name="comment">Product Group</param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:ThumbsComments.Interfaces.IThumbsCommentsRepository.Exists(System.Guid)">
+            <summary>
+            Required Exists function
+            </summary>
+            <param name="id">Id</param>
+            <returns>Task bool</returns>
+        </member>
+        <member name="T:ThumbsComments.Models.Comment">
+            <summary>
+            Comment Model
+            </summary>
+        </member>
+        <member name="P:ThumbsComments.Models.Comment.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:ThumbsComments.Models.Comment.LineOfBusiness">
+            <summary>
+            Line Of Business
+            </summary>
+        </member>
+        <member name="P:ThumbsComments.Models.Comment.ThumbComment">
+            <summary>
+            Thumb Comment
+            </summary>
+        </member>
+        <member name="P:ThumbsComments.Models.Context.Comments">
+            <summary>
+            Comments
+            </summary>
+        </member>
+    </members>
+</doc>
