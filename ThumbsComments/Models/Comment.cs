@@ -12,7 +12,7 @@ namespace ThumbsComments.Models
         /// Id
         /// </summary>
         [Key]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } 
 
         /// <summary>
         /// Line Of Business

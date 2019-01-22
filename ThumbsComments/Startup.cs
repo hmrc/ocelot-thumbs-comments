@@ -36,6 +36,7 @@ namespace ThumbsComments
                            Environment.GetEnvironmentVariable("Connection", EnvironmentVariableTarget.Machine)));
 
             services.AddAuthentication(HttpSysDefaults.AuthenticationScheme);
+            services.AddMvc();
 
             services.AddScoped<IThumbsCommentsRepository, ThumbsCommentRepository>();
 

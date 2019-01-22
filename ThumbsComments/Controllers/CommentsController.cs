@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,15 +9,18 @@ using ThumbsComments.Models;
 
 namespace ThumbsComments.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
     {
+        private readonly ILogger<CommentsController> _logger;
         private readonly IThumbsCommentsRepository _thubsCommentsRepository;
 
-        public CommentsController(IThumbsCommentsRepository thubsCommentsRepository)
+        public CommentsController(ILogger<CommentsController> logger, 
+                                  IThumbsCommentsRepository thubsCommentsRepository)
         {
             _thubsCommentsRepository = thubsCommentsRepository;
+            _logger = logger;
         }
 
         // GET: api/Comments
@@ -48,6 +52,11 @@ namespace ThumbsComments.Controllers
         [HttpGet(), Route("GetCommentByLineOfBusiness")]
         public async Task<IActionResult> GetCommentByLineOfBusiness(string lineOfBusiness)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var comment = await _thubsCommentsRepository.Get(t => t.LineOfBusiness == lineOfBusiness);
 
             if (comment == null)
@@ -77,7 +86,7 @@ namespace ThumbsComments.Controllers
             {
                 await _thubsCommentsRepository.Put(comment);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!await _thubsCommentsRepository.Exists(id))
                 {
@@ -85,7 +94,8 @@ namespace ThumbsComments.Controllers
                 }
                 else
                 {
-                    throw;
+                    _logger.LogCritical(500, ex.Message, ex);
+                    return StatusCode(500, ex.Message);
                 }
             }
 
@@ -101,9 +111,13 @@ namespace ThumbsComments.Controllers
                 return BadRequest(ModelState);
             }
 
+            comment.Id = Guid.NewGuid();
+
             await _thubsCommentsRepository.Post(comment);
 
+       
             return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
+         
         }
 
         // DELETE: api/Comments/5
