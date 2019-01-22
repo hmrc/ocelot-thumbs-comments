@@ -4,11 +4,73 @@
         <name>ThumbsComments</name>
     </assembly>
     <members>
+        <member name="T:ThumbsComments.Controllers.CommentsController">
+            <summary>
+            API controller for Thumbs comments
+            </summary>
+        </member>
+        <member name="M:ThumbsComments.Controllers.CommentsController.#ctor(Microsoft.Extensions.Logging.ILogger{ThumbsComments.Controllers.CommentsController},ThumbsComments.Interfaces.IThumbsCommentsRepository)">
+            <summary>
+            Constructor for CommentsController
+            </summary>
+            <param name="logger">logger</param>
+            <param name="thumbsCommentsRepository">thumbsCommentsRepository</param>
+        </member>
+        <member name="M:ThumbsComments.Controllers.CommentsController.GetComments">
+            <summary>
+            Get all comments
+            </summary>
+            <returns>Task IEnumerable comment</returns>      
+        </member>
+        <member name="M:ThumbsComments.Controllers.CommentsController.GetComment(System.Guid)">
+            <summary>
+            Get comment by id
+            </summary>
+            <param name="id">id</param>
+            <returns>Task IActionResult</returns>
+            <response code="200">Ok</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="500">Internal Server Error</response>
+        </member>
         <member name="M:ThumbsComments.Controllers.CommentsController.GetCommentByLineOfBusiness(System.String)">
             <summary>
-            
+            Get comment by line of business
             </summary>
             <param name="lineOfBusiness"></param>
+            <returns>Task IActionResult</returns>
+            <response code="200">Ok</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:ThumbsComments.Controllers.CommentsController.PutComment(System.Guid,ThumbsComments.Models.Comment)">
+            <summary>
+            Update comment
+            </summary>
+            <param name="id">id</param>
+            <param name="comment">Comment</param>
+            <returns>Task IActionResult</returns>
+            <response code="204">No Content</response>
+            <response code="400">Bad Request</response>
+            <response code="404">Not Found</response>
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:ThumbsComments.Controllers.CommentsController.PostComment(ThumbsComments.Models.Comment)">
+            <summary>
+            Create comment
+            </summary>
+            <param name="comment">comment</param>
+            <returns>Task IActionResult</returns>
+            <response code="201">Created</response>
+            <response code="400">Bad Request</response>     
+            <response code="500">Internal Server Error</response>
+        </member>
+        <member name="M:ThumbsComments.Controllers.CommentsController.DeleteComment(System.Guid)">
+            <summary>
+            Delete Comment
+            </summary>
+            <param name="id">id</param>
             <returns>Task IActionResult</returns>
             <response code="200">Ok</response>
             <response code="400">Bad Request</response>
@@ -88,10 +150,133 @@
             Thumb Comment
             </summary>
         </member>
+        <member name="T:ThumbsComments.Models.Context">
+            <summary>
+            Database context
+            </summary>
+        </member>
+        <member name="M:ThumbsComments.Models.Context.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{ThumbsComments.Models.Context})">
+            <summary>
+            Context constructor
+            </summary>
+            <param name="options">Options</param>
+        </member>
         <member name="P:ThumbsComments.Models.Context.Comments">
             <summary>
             Comments
             </summary>
+        </member>
+        <member name="M:ThumbsComments.Models.Context.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Runs on creation
+            </summary>
+            <param name="modelBuilder">Model builder</param>
+        </member>
+        <member name="T:ThumbsComments.Program">
+            <summary>
+            Thumbs Comments program class
+            </summary>
+        </member>
+        <member name="M:ThumbsComments.Program.Main(System.String[])">
+            <summary>
+            Main function for program start.
+            </summary>
+            <param name="args">Args</param>
+        </member>
+        <member name="M:ThumbsComments.Program.BuildWebHost(System.String[])">
+            <summary>
+            Builds web host
+            </summary>
+            <param name="args">Args</param>
+            <returns>IWebHost</returns>
+        </member>
+        <member name="T:ThumbsComments.Repositories.ThumbsCommentRepository">
+            <summary>
+            Thumbs Comment repository, handles all database queries
+            </summary>
+        </member>
+        <member name="M:ThumbsComments.Repositories.ThumbsCommentRepository.#ctor(ThumbsComments.Models.Context)">
+            <summary>
+            Constructor for Product groups Repository
+            </summary>
+            <param name="context">Context dependency injected</param>    
+        </member>
+        <member name="M:ThumbsComments.Repositories.ThumbsCommentRepository.Get(System.Linq.Expressions.Expression{System.Func{ThumbsComments.Models.Comment,System.Boolean}})">
+            <summary>
+            Get individual thumb comment
+            </summary>
+            <param name="where">where</param>
+            <returns>Task Comment</returns>
+        </member>
+        <member name="M:ThumbsComments.Repositories.ThumbsCommentRepository.GetMany">
+            <summary>
+            Returns many comments
+            </summary>
+            <returns>Task IEnumerable Comment</returns>
+        </member>
+        <member name="M:ThumbsComments.Repositories.ThumbsCommentRepository.GetMany(System.Linq.Expressions.Expression{System.Func{ThumbsComments.Models.Comment,System.Boolean}})">
+            <summary>
+            Get many comments
+            </summary>
+            <param name="where">where</param>
+            <returns>Task IEnumerable Comment</returns>
+        </member>
+        <member name="M:ThumbsComments.Repositories.ThumbsCommentRepository.Post(ThumbsComments.Models.Comment)">
+            <summary>
+            Create comment
+            </summary>
+            <param name="comment">comment</param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:ThumbsComments.Repositories.ThumbsCommentRepository.Put(ThumbsComments.Models.Comment)">
+            <summary>
+            Update comment
+            </summary>
+            <param name="comment">comment</param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:ThumbsComments.Repositories.ThumbsCommentRepository.Delete(ThumbsComments.Models.Comment)">
+            <summary>
+            Delete comment
+            </summary>
+            <param name="comment">comment</param>
+            <returns>Task</returns>
+        </member>
+        <member name="M:ThumbsComments.Repositories.ThumbsCommentRepository.Exists(System.Guid)">
+            <summary>
+            Does comment exist
+            </summary>
+            <param name="id">id</param>
+            <returns>Task bool</returns>
+        </member>
+        <member name="T:ThumbsComments.Startup">
+            <summary>
+            Project startup class
+            </summary>
+        </member>
+        <member name="M:ThumbsComments.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Startup contstructor
+            </summary>
+            <param name="configuration">Startup configuration</param>
+        </member>
+        <member name="P:ThumbsComments.Startup.Configuration">
+            <summary>
+            IConfiguration value
+            </summary>
+        </member>
+        <member name="M:ThumbsComments.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configure project services. This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services">Services</param>
+        </member>
+        <member name="M:ThumbsComments.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app">Application Builder</param>
+            <param name="env">Environment</param>
         </member>
     </members>
 </doc>

@@ -7,8 +7,15 @@ using System;
 
 namespace ThumbsComments
 {
+    /// <summary>
+    /// Thumbs Comments program class
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Main function for program start.
+        /// </summary>
+        /// <param name="args">Args</param>
         public static void Main(string[] args)
         {
             // NLog: setup the logger first to catch all errors
@@ -31,6 +38,11 @@ namespace ThumbsComments
             }
         }
 
+        /// <summary>
+        /// Builds web host
+        /// </summary>
+        /// <param name="args">Args</param>
+        /// <returns>IWebHost</returns>
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()

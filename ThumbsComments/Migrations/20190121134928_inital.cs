@@ -5,7 +5,9 @@ namespace ThumbsComments.Migrations
 {
     public partial class inital : Migration
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected override void Up(MigrationBuilder migrationBuilder)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             migrationBuilder.CreateTable(
                 name: "Comments",
@@ -27,7 +29,9 @@ namespace ThumbsComments.Migrations
                 unique: true);
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected override void Down(MigrationBuilder migrationBuilder)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             migrationBuilder.DropTable(
                 name: "Comments");

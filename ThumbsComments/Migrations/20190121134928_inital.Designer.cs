@@ -11,9 +11,13 @@ namespace ThumbsComments.Migrations
 {
     [DbContext(typeof(Context))]
     [Migration("20190121134928_inital")]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     partial class inital
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
 #pragma warning disable 612, 618
             modelBuilder

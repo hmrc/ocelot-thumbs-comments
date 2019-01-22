@@ -9,6 +9,9 @@ using ThumbsComments.Models;
 
 namespace ThumbsComments.Controllers
 {
+    /// <summary>
+    /// API controller for Thumbs comments
+    /// </summary>
     [Route("/[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
@@ -16,14 +19,22 @@ namespace ThumbsComments.Controllers
         private readonly ILogger<CommentsController> _logger;
         private readonly IThumbsCommentsRepository _thumbsCommentsRepository;
 
+        /// <summary>
+        /// Constructor for CommentsController
+        /// </summary>
+        /// <param name="logger">logger</param>
+        /// <param name="thumbsCommentsRepository">thumbsCommentsRepository</param>
         public CommentsController(ILogger<CommentsController> logger, 
-                                  IThumbsCommentsRepository thubsCommentsRepository)
+                                  IThumbsCommentsRepository thumbsCommentsRepository)
         {
-            _thumbsCommentsRepository = thubsCommentsRepository;
+            _thumbsCommentsRepository = thumbsCommentsRepository;
             _logger = logger;
         }
 
-        // GET: api/Comments
+        /// <summary>
+        /// Get all comments
+        /// </summary>
+        /// <returns>Task IEnumerable comment</returns>      
         [HttpGet]
         public async Task<IEnumerable<Comment>> GetComments()
         {
@@ -39,7 +50,15 @@ namespace ThumbsComments.Controllers
             }           
         }
 
-        // GET: api/Comments/5
+        /// <summary>
+        /// Get comment by id
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>Task IActionResult</returns>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetComment([FromRoute] Guid id)
         {
@@ -68,7 +87,7 @@ namespace ThumbsComments.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Get comment by line of business
         /// </summary>
         /// <param name="lineOfBusiness"></param>
         /// <returns>Task IActionResult</returns>
@@ -103,8 +122,16 @@ namespace ThumbsComments.Controllers
             }            
         }
 
-
-        // PUT: api/Comments/5
+        /// <summary>
+        /// Update comment
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="comment">Comment</param>
+        /// <returns>Task IActionResult</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutComment([FromRoute] Guid id, [FromBody] Comment comment)
         {
@@ -139,7 +166,14 @@ namespace ThumbsComments.Controllers
             }            
         }
 
-        // POST: api/Comments
+        /// <summary>
+        /// Create comment
+        /// </summary>
+        /// <param name="comment">comment</param>
+        /// <returns>Task IActionResult</returns>
+        /// <response code="201">Created</response>
+        /// <response code="400">Bad Request</response>     
+        /// <response code="500">Internal Server Error</response>
         [HttpPost]
         public async Task<IActionResult> PostComment([FromBody] Comment comment)
         {
@@ -164,7 +198,15 @@ namespace ThumbsComments.Controllers
             }           
         }
 
-        // DELETE: api/Comments/5
+        /// <summary>
+        /// Delete Comment
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>Task IActionResult</returns>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComment([FromRoute] Guid id)
         {
