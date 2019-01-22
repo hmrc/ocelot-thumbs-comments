@@ -14,12 +14,12 @@ namespace ThumbsComments.Controllers
     public class CommentsController : ControllerBase
     {
         private readonly ILogger<CommentsController> _logger;
-        private readonly IThumbsCommentsRepository _thubsCommentsRepository;
+        private readonly IThumbsCommentsRepository _thumbsCommentsRepository;
 
         public CommentsController(ILogger<CommentsController> logger, 
                                   IThumbsCommentsRepository thubsCommentsRepository)
         {
-            _thubsCommentsRepository = thubsCommentsRepository;
+            _thumbsCommentsRepository = thubsCommentsRepository;
             _logger = logger;
         }
 
@@ -27,7 +27,16 @@ namespace ThumbsComments.Controllers
         [HttpGet]
         public async Task<IEnumerable<Comment>> GetComments()
         {
-            return await _thubsCommentsRepository.GetMany();
+            try
+            {
+                return await _thumbsCommentsRepository.GetMany();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogCritical(500, ex.Message, ex);
+
+                return new List<Comment>() ;
+            }           
         }
 
         // GET: api/Comments/5
@@ -39,16 +48,34 @@ namespace ThumbsComments.Controllers
                 return BadRequest(ModelState);
             }
 
-            var comment = await _thubsCommentsRepository.Get(t => t.Id == id);
-
-            if (comment == null)
+            try
             {
-                return NotFound();
-            }
+                var comment = await _thumbsCommentsRepository.Get(t => t.Id == id);
 
-            return Ok(comment);
+                if (comment == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(comment);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogCritical(500, ex.Message, ex);
+
+                return StatusCode(500, ex.Message);
+            }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lineOfBusiness"></param>
+        /// <returns>Task IActionResult</returns>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpGet(), Route("GetCommentByLineOfBusiness")]
         public async Task<IActionResult> GetCommentByLineOfBusiness(string lineOfBusiness)
         {
@@ -57,14 +84,23 @@ namespace ThumbsComments.Controllers
                 return BadRequest(ModelState);
             }
 
-            var comment = await _thubsCommentsRepository.Get(t => t.LineOfBusiness == lineOfBusiness);
-
-            if (comment == null)
+            try
             {
-                return NotFound();
-            }
+                var comment = await _thumbsCommentsRepository.Get(t => t.LineOfBusiness == lineOfBusiness);
 
-            return Ok(comment);
+                if (comment == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(comment);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogCritical(500, ex.Message, ex);
+
+                return StatusCode(500, ex.Message);
+            }            
         }
 
 
@@ -84,22 +120,23 @@ namespace ThumbsComments.Controllers
 
             try
             {
-                await _thubsCommentsRepository.Put(comment);
+                await _thumbsCommentsRepository.Put(comment);
+
+                return NoContent();
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                if (!await _thubsCommentsRepository.Exists(id))
+                if (!await _thumbsCommentsRepository.Exists(id))
                 {
                     return NotFound();
                 }
                 else
                 {
                     _logger.LogCritical(500, ex.Message, ex);
+
                     return StatusCode(500, ex.Message);
                 }
-            }
-
-            return NoContent();
+            }            
         }
 
         // POST: api/Comments
@@ -111,13 +148,20 @@ namespace ThumbsComments.Controllers
                 return BadRequest(ModelState);
             }
 
-            comment.Id = Guid.NewGuid();
+            try
+            {
+                comment.Id = Guid.NewGuid();
 
-            await _thubsCommentsRepository.Post(comment);
+                await _thumbsCommentsRepository.Post(comment);
 
-       
-            return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
-         
+                return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogCritical(500, ex.Message, ex);
+
+                return StatusCode(500, ex.Message);
+            }           
         }
 
         // DELETE: api/Comments/5
@@ -129,16 +173,25 @@ namespace ThumbsComments.Controllers
                 return BadRequest(ModelState);
             }
 
-            var comment = await _thubsCommentsRepository.Get(t => t.Id == id);
-
-            if (comment == null)
+            try
             {
-                return NotFound();
+                var comment = await _thumbsCommentsRepository.Get(t => t.Id == id);
+
+                if (comment == null)
+                {
+                    return NotFound();
+                }
+
+                await _thumbsCommentsRepository.Delete(comment);
+
+                return Ok(comment);
             }
+            catch(Exception ex)
+            {
+                _logger.LogCritical(500, ex.Message, ex);
 
-            await _thubsCommentsRepository.Delete(comment);
-
-            return Ok(comment);
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
