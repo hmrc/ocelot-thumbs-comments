@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,7 +14,7 @@ namespace ThumbsComments.Controllers
     /// API controller for Thumbs comments
     /// </summary>
     [Route("/[controller]")]
-    [ApiController]
+    [ApiController]  
     public class CommentsController : ControllerBase
     {
         private readonly ILogger<CommentsController> _logger;
